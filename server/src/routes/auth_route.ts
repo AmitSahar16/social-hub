@@ -155,4 +155,48 @@ router.get('/logout', authController.logout);
  */
 router.get('/refresh', authController.refresh);
 
+/**
+ * @swagger
+ * /auth/google:
+ *   get:
+ *     summary: Initiate Google OAuth login
+ *     tags: [Auth]
+ *     responses:
+ *       302:
+ *         description: Redirects to Google OAuth consent screen
+ */
+router.get('/google', authController.googleAuth);
+
+/**
+ * @swagger
+ * /auth/google/callback:
+ *   get:
+ *     summary: Google OAuth callback
+ *     tags: [Auth]
+ *     parameters:
+ *       - in: query
+ *         name: code
+ *         schema:
+ *           type: string
+ *         description: Authorization code from Google
+ *     responses:
+ *       302:
+ *         description: Redirects to frontend with tokens
+ *       401:
+ *         description: OAuth authentication failed
+ */
+router.get('/google/callback', authController.googleCallback);
+
+/**
+ * @swagger
+ * /auth/google/failure:
+ *   get:
+ *     summary: Google OAuth failure handler
+ *     tags: [Auth]
+ *     responses:
+ *       401:
+ *         description: OAuth authentication failed
+ */
+router.get('/google/failure', authController.googleFailure);
+
 export default router;

@@ -1,8 +1,10 @@
 import { Request, Response } from 'express';
 import User from '../models/user';
 import bcrypt from 'bcrypt';
+import crypto from 'crypto';
 import { generateAccessToken, generateRefreshToken, getRefreshTokenFromHeader, verifyRefreshToken } from '../utils/authUtils';
 import { AppError, asyncHandler } from '../middleware/errorHandler';
+import { getGoogleAuthUrl, verifyGoogleToken } from '../utils/googleAuthUtils';
 
 const register = asyncHandler(async (req: Request, res: Response) => {
   const { email, password, username } = req.body;
@@ -77,6 +79,72 @@ const login = asyncHandler(async (req: Request, res: Response) => {
   });
 });
 
+const googleAuth = asyncHandler(async (req: Request, res: Response) => {
+  try {
+    const authUrl = getGoogleAuthUrl();
+    res.redirect(authUrl);
+  } catch (error: any) {
+    throw new AppError(501, error.message, 'OAUTH_NOT_CONFIGURED');
+  }
+});
+
+const googleCallback = asyncHandler(async (req: Request, res: Response) => {
+  const code = req.query.code as string;
+
+  if (!code) {
+    throw new AppError(400, 'Authorization code missing', 'MISSING_CODE');
+  }
+
+  try {
+    const payload = await verifyGoogleToken(code);
+
+    let user = await User.findOne({ googleId: payload.sub });
+
+    if (!user) {
+      user = await User.findOne({ email: payload.email });
+
+      if (user) {
+        user.googleId = payload.sub;
+        await user.save();
+      } else {
+        const randomPassword = crypto.randomBytes(32).toString('hex');
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(randomPassword, salt);
+
+        user = await User.create({
+          googleId: payload.sub,
+          email: payload.email || `${payload.sub}@google.com`,
+          username: payload.name || `google_${payload.sub}`,
+          password: hashedPassword,
+          profileImage: payload.picture,
+          createdViaGoogle: true,
+        });
+      }
+    }
+
+    const accessToken = generateAccessToken({ _id: user._id });
+    const refreshToken = generateRefreshToken({ _id: user._id });
+
+    user.refreshTokens = [refreshToken];
+    await user.save();
+
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+    const redirectUrl = `${frontendUrl}/auth/callback?accessToken=${accessToken}&refreshToken=${refreshToken}`;
+    res.redirect(redirectUrl);
+  } catch (error: any) {
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+    const errorUrl = `${frontendUrl}/login?error=${encodeURIComponent(error.message || 'Authentication failed')}`;
+    res.redirect(errorUrl);
+  }
+});
+
+const googleFailure = asyncHandler(async (req: Request, res: Response) => {
+  res.status(401).json({
+    code: 'OAUTH_FAILURE',
+    message: 'Google authentication failed',
+  });
+});
+
 const logout = asyncHandler(async (req: Request, res: Response) => {
   const refreshToken = getRefreshTokenFromHeader(req.headers);
 
@@ -145,6 +213,9 @@ const refresh = asyncHandler(async (req: Request, res: Response) => {
 export default {
   register,
   login,
+  googleAuth,
+  googleCallback,
+  googleFailure,
   logout,
   refresh,
 };
