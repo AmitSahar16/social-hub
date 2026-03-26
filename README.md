@@ -1,650 +1,169 @@
-Social Posts Platform
-
-Full-Stack Social Network for Post Sharing
-
-Project Overview
-
-
-
-This project implements a full-stack social platform for sharing posts, allowing users to publish and explore content created by other users.
-
-
-
-The system follows a client-server architecture and includes authentication, post management, a dynamic feed, and intelligent search capabilities.
-
-
-
-Users can create posts containing text and images, browse posts shared by other users, and interact with the platform through a modern web interface.
-
-
-
-The system also integrates AI-based semantic search, allowing users to find relevant posts using natural language queries.
-
-
-
-System Architecture
-
-
-
-The application is divided into two main components:
-
-
-
-project-root
-
-│
-
-├── client/      # React frontend
-
-├── server/      # Node.js / TypeScript backend
-
-└── README.md
-
-Client
-
-
-
-Responsible for:
-
-
-
-user interface
-
-
-
-user interactions
-
-
-
-displaying posts and profiles
-
-
-
-communicating with the server
-
-
-
-Server
-
-
-
-Responsible for:
-
-
-
-business logic
-
-
-
-database operations
-
-
-
-authentication
-
-
-
-REST API
-
-
-
-AI integration
-
-
-
-testing and validation
-
-
-
-Functional Features
-
-User Management
-
-
-
-Users can:
-
-
-
-register to the platform
-
-
-
-log in and log out
-
-
-
-remain authenticated across sessions
-
-
-
-view and update their profile
-
-
-
-view their own posts
-
-
-
-Post Management
-
-
-
-The platform allows users to:
-
-
-
-create posts
-
-
-
-edit their posts
-
-
-
-delete their posts
-
-
-
-view posts from other users
-
-
-
-upload images associated with posts
-
-
-
-Each post may include:
-
-
-
-title
-
-
-
-text content
-
-
-
-image
-
-
-
-author information
-
-
-
-creation date
-
-
-
-Feed System
-
-
-
-The main page displays a post feed containing posts from multiple users.
-
-
-
-The feed supports:
-
-
-
-infinite scrolling
-
-
-
-progressive loading (paging)
-
-
-
-dynamic content updates
-
-
-
-Posts are loaded in batches as the user scrolls.
-
-
-
-AI Integration
-
-
-
-The platform integrates Artificial Intelligence to provide semantic search capabilities.
-
-
-
-Instead of traditional keyword search, users can write queries in natural language, for example:
-
-
-
-"posts about hiking trails"
-
-
-
-"cheap food recommendations"
-
-
-
-"beautiful beaches to visit"
-
-
-
-The AI analyzes the meaning of the query and retrieves the most relevant posts.
-
-
-
-Backend Design
-
-
-
-The backend is implemented using Node.js with TypeScript and follows a modular architecture.
-
-
-
-Main components include:
-
-
-
-Routes
-
-
-
-Controllers
-
-
-
-Services
-
-
-
-Data models
-
-
-
-Middleware
-
-
-
-AI integration layer
-
-
-
-The server exposes a REST API consumed by the frontend.
-
-
-
-REST API
-
-
-
-The backend provides endpoints for managing users and posts.
-
-
-
-Authentication
-
-POST /auth/register
-
-POST /auth/login
-
-POST /auth/logout
-
-Users
-
-GET /users/profile
-
-PUT /users/profile
-
-GET /users/:id
-
-Posts
-
-GET /posts
-
-GET /posts/:id
-
-POST /posts
-
-PUT /posts/:id
-
-DELETE /posts/:id
-
-Search
-
-POST /posts/search
-
-
-
-Performs semantic search using AI.
-
-
-
-API Documentation
-
-
-
-All APIs are documented using Swagger.
-
-
-
-The Swagger interface is available at:
-
-
-
-/api/docs
-
-
-
-Swagger documentation includes:
-
-
-
-endpoint descriptions
-
-
-
-request parameters
-
-
-
-request body schemas
-
-
-
-response schemas
-
-
-
-status codes
-
-
-
-Testing
-
-
-
-The backend includes unit tests for all internal API endpoints.
-
-
-
-
-Run tests using:
-
-
-
-npm test
-
-Test Coverage
-
-
-
-The project includes automated test coverage reporting.
-
-
-
-Run coverage analysis:
-
-
-
-npm run test:coverage
-
-
-
-Coverage includes:
-
-
-
-statements
-
-
-
-branches
-
-
-
-functions
-
-
-
-lines
-
-
-
-The report is generated in:
-
-
-
-/coverage
-
-Client Design
-
-
-
-The frontend is built using React and TypeScript.
-
-
-
-Main responsibilities include:
-
-
-
-displaying the feed
-
-
-
-managing UI state
-
-
-
-handling authentication
-
-
-
-sending API requests
-
-
-
-rendering search results
-
-
-
-managing user interactions
-
-
-
-User Interface Features
-
-Feed Interface
-
-
-
-infinite scrolling
-
-
-
-progressive loading
-
-
-
-dynamic updates
-
-
-
-Post Interface
-
-
-
-post creation form
-
-
-
-post editing
-
-
-
-post deletion
-
-
-
-Search Interface
-
-
-
-natural language search
-
-
-
-AI powered filtering
-
-
-
-results displayed inside the feed
-
-
-
-Users can clear search results to return to the full feed.
-
-
-
-Technologies Used
-
-Frontend
-
-
-
-React
-
-
-
-TypeScript
-
-
-
-REST API integration
-
-
-
-modern UI components
-
-
-
-Backend
-
-
-
-Node.js
-
-
-
-TypeScript
-
-
-
-Express
-
-
-
-Swagger
-
-
-
-Testing
-
-
-
-Jest
-
-
-
-AI
-
-
-
-Gemini
-
-
-Installation
-
-
-
-Clone the repository:
-
-
-
-git clone <repository-url>
-
-
-
-Install dependencies:
-
-
-
-Client:
-
-
-
-cd client
-
-npm install
-
-
-
-Server:
-
-
-
+# Social Hub
+
+A social platform for sharing posts, discovering content, and searching with natural language. Built with React and Node.js.
+
+Social Hub is a straightforward social networking app. You can create posts, see what others have posted, and search for content using natural language instead of keywords. Instead of typing "hiking" and getting random results, you can say "great hiking trails with waterfalls" and get actually relevant posts.
+
+It's split into two parts: a React frontend for the UI and a Node.js backend that handles the API and database.
+
+## Getting Started
+
+### What You Need
+
+- Node.js (v16+)
+- npm or yarn
+- MongoDB
+- A Google OAuth app (for login)
+- A Google Gemini API key (for the AI search)
+
+### Installation
+
+Clone the repo:
+```bash
+git clone <repo-url>
+cd social-hub
+```
+
+Set up your environment. In the `server/` folder, create a `.env` file:
+```
+MONGODB_URI=mongodb://localhost:27017/social-hub
+PORT=5000
+JWT_SECRET=your_secret_here
+JWT_EXPIRY=7d
+GOOGLE_CLIENT_ID=your_google_id
+GOOGLE_CLIENT_SECRET=your_google_secret
+GOOGLE_CALLBACK_URL=http://localhost:5173/auth/callback
+GEMINI_API_KEY=your_gemini_key
+```
+
+In the `client/` folder, create a `.env` file:
+```
+VITE_API_BASE_URL=http://localhost:5000/api
+```
+
+Install packages:
+```bash
+cd server && npm install
+cd ../client && npm install
+```
+
+### Running It Locally
+
+Terminal 1 - Start the server:
+```bash
 cd server
-
-npm install
-
-
-
-Run the backend:
-
-
-
-cd server
-
 npm run dev
+```
 
-
-
-Run the frontend:
-
-
-
+Terminal 2 - Start the client:
+```bash
 cd client
+npm run dev
+```
 
-npm start
+Open `http://localhost:5173` in your browser. The API runs on `http://localhost:5000`.
 
-Future Improvements
+## How It's Built
 
+**Frontend** — React + TypeScript using Vite. Handles the UI, manages auth state, talks to the API, and loads posts into the feed. 
 
+**Backend** — Node.js + Express running a REST API. Handles user accounts, posts, comments, likes, stores everything in MongoDB, and integrates with Gemini for semantic search.
 
-Possible improvements include:
+The entire API is documented in Swagger at `/api/docs`.
 
+## Features
 
+**User accounts**
+- Sign up and log in
+- Update your profile
+- Stay logged in across sessions
 
-post comments
+**Posts**
+- Create, edit, delete posts
+- Add images to posts
+- Browse everyone's posts
+- Infinite scroll through the feed
 
+**Interact with posts**
+- Comment on posts
+- Like posts
+- See comment counts and likes
 
+**Search**
+- Type a natural language query: "summer travel tips" or "coffee shop recommendations"
+- Get relevant results instead of keyword matches
+- It actually works pretty well
 
-likes and reactions
+## Stack
 
+- **Frontend**: React, TypeScript, Vite
+- **Backend**: Node.js, Express, MongoDB
+- **Testing**: Jest
+- **AI**: Google Gemini API
+- **Docs**: Swagger
 
+## Running Tests
 
-real-time notifications
+```bash
+cd server
+npm test
+```
 
+For coverage:
+```bash
+npm run test:coverage
+```
 
+The coverage report goes into `/coverage`.
 
-advanced recommendation algorithms
+## API Endpoints
 
+**Auth**
+- `POST /api/auth/register` - Sign up
+- `POST /api/auth/login` - Log in
+- `POST /api/auth/logout` - Log out
 
+**Users**
+- `GET /api/users/profile` - Get your profile
+- `PUT /api/users/profile` - Update profile
+- `GET /api/users/:id` - View someone's profile
 
-improved AI content analysis
+**Posts**
+- `GET /api/posts` - Get posts (paginated)
+- `GET /api/posts/:id` - Get a single post
+- `POST /api/posts` - Create post
+- `PUT /api/posts/:id` - Edit post
+- `DELETE /api/posts/:id` - Delete post
 
+**Comments**
+- `POST /api/comments` - Add comment
+- `PUT /api/comments/:id` - Edit comment
+- `DELETE /api/comments/:id` - Delete comment
 
+**Likes**
+- `POST /api/likes` - Like a post
+- `DELETE /api/likes/:postId` - Unlike a post
 
-mobile interface
+**Search**
+- `POST /api/posts/search` - AI-powered search
 
+## File Structure
+
+```
+client/
+├── src/
+│   ├── components/    # UI components
+│   ├── pages/         # Page components
+│   ├── services/      # API calls
+│   ├── context/       # Auth and post state
+│   └── types/         # TypeScript types
+
+server/
+├── src/
+│   ├── routes/        # API routes
+│   ├── controllers/    # Request handlers
+│   ├── services/      # Business logic
+│   ├── models/        # MongoDB schemas
+│   ├── middleware/    # Custom middleware
+│   └── tests/         # Unit tests
+```
