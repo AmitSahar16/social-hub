@@ -68,9 +68,12 @@ const ProfilePage: React.FC = () => {
           <div className="card-body position-relative" style={{ paddingTop: '0' }}>
             <div className="d-flex justify-content-between" style={{ marginTop: '-60px', marginBottom: '1rem' }}>
               <img
-                src={profileUser?.avatar}
+                src={profileUser?.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(profileUser?.username || 'User')}&background=random`}
                 alt={profileUser?.username}
                 className="avatar-lg"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(profileUser?.username || 'User')}&background=random`;
+                }}
               />
 
               {isOwnProfile && (

@@ -8,14 +8,14 @@ class CommentsController {
   getAllComments = asyncHandler(async (req: Request, res: Response) => {
     const comments = await Comment.find()
       .sort({ createdAt: -1 })
-      .populate('user', 'username email');
+      .populate('user', 'username email profileImage');
 
     res.json(comments);
   });
 
   getCommentById = asyncHandler(async (req: Request, res: Response) => {
     const comment = await Comment.findById(req.params.id)
-      .populate('user', 'username email');
+      .populate('user', 'username email profileImage');
 
     if (!comment) {
       throw new AppError(404, 'Comment not found', 'COMMENT_NOT_FOUND');
@@ -27,7 +27,7 @@ class CommentsController {
   getCommentsByPostId = asyncHandler(async (req: Request, res: Response) => {
     const comments = await Comment.find({ post: req.params.postId })
       .sort({ createdAt: -1 })
-      .populate('user', 'username email');
+      .populate('user', 'username email profileImage');
 
     res.json(comments);
   });
@@ -41,7 +41,7 @@ class CommentsController {
 
     await Post.findByIdAndUpdate(req.body.post, { $inc: { commentCount: 1 } });
 
-    const populatedComment = await comment.populate('user', 'username email');
+    const populatedComment = await comment.populate('user', 'username email profileImage');
     res.status(201).json(populatedComment);
   });
 
@@ -54,7 +54,7 @@ class CommentsController {
 
     await Post.findByIdAndUpdate(req.params.postId, { $inc: { commentCount: 1 } });
 
-    const populatedComment = await comment.populate('user', 'username email');
+    const populatedComment = await comment.populate('user', 'username email profileImage');
     res.status(201).json(populatedComment);
   });
 
@@ -63,7 +63,7 @@ class CommentsController {
       { _id: req.params.id, user: req.user._id },
       { text: req.body.text },
       { new: true }
-    ).populate('user', 'username email');
+    ).populate('user', 'username email profileImage');
 
     if (!comment) {
       throw new AppError(404, 'Comment not found', 'COMMENT_NOT_FOUND');

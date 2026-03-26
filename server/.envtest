@@ -1,18 +1,8 @@
 PORT=3000
 HTTPS_PORT=443
-DOMAIN=node26.cs.colman.ac.il
-NODE_ENV=development
-FRONTEND_FOLDER_NAME=client
-
 DATABASE_URL=mongodb://localhost:27017/finalproject
-
 ACCESS_TOKEN_SECRET=your-access-token-secret-here
 ACCESS_TOKEN_EXPIRY=15m
 REFRESH_TOKEN_SECRET=your-refresh-token-secret-here
 REFRESH_TOKEN_EXPIRY=7d
 
-GOOGLE_CLIENT_ID=
-GOOGLE_CLIENT_SECRET=
-
-AI_PROVIDER=gemini
-AI_API_KEY=

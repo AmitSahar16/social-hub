@@ -5,6 +5,7 @@ import crypto from 'crypto';
 import { generateAccessToken, generateRefreshToken, getRefreshTokenFromHeader, verifyRefreshToken } from '../utils/authUtils';
 import { AppError, asyncHandler } from '../middleware/errorHandler';
 import { getGoogleAuthUrl, verifyGoogleToken } from '../utils/googleAuthUtils';
+import { BASE_URL } from '../config/env';
 
 const register = asyncHandler(async (req: Request, res: Response) => {
   const { email, password, username } = req.body;
@@ -95,6 +96,8 @@ const googleCallback = asyncHandler(async (req: Request, res: Response) => {
     throw new AppError(400, 'Authorization code missing', 'MISSING_CODE');
   }
 
+  const frontendUrl = BASE_URL;
+
   try {
     const payload = await verifyGoogleToken(code);
 
@@ -128,11 +131,9 @@ const googleCallback = asyncHandler(async (req: Request, res: Response) => {
     user.refreshTokens = [refreshToken];
     await user.save();
 
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
     const redirectUrl = `${frontendUrl}/auth/callback?accessToken=${accessToken}&refreshToken=${refreshToken}`;
     res.redirect(redirectUrl);
   } catch (error: any) {
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
     const errorUrl = `${frontendUrl}/login?error=${encodeURIComponent(error.message || 'Authentication failed')}`;
     res.redirect(errorUrl);
   }

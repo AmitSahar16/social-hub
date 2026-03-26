@@ -23,7 +23,9 @@ const AuthCallbackPage: React.FC = () => {
         tokenStorage.setAccessToken(accessToken);
         tokenStorage.setRefreshToken(refreshToken);
 
-        const response = await fetch('http://localhost:3000/users/me', {
+        const baseURL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+
+        const response = await fetch(`${baseURL}/users/me`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -35,7 +37,6 @@ const AuthCallbackPage: React.FC = () => {
 
         const userData = await response.json();
 
-        const baseURL = 'http://localhost:3000';
         const avatarUrl = userData.profileImage
           ? (userData.profileImage.startsWith('http')
             ? userData.profileImage

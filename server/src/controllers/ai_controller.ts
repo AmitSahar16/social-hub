@@ -11,10 +11,14 @@ import User from '../models/user';
 const aiSearchCache = new TTLCache<SearchFilters>();
 const aiRateLimiter = new UserRateLimiter(10, 60 * 60 * 1000);
 
-setInterval(() => {
+const cleanupInterval = setInterval(() => {
   aiSearchCache.cleanup();
   aiRateLimiter.cleanup();
 }, 5 * 60 * 1000);
+
+export const cleanupAIController = () => {
+  clearInterval(cleanupInterval);
+};
 
 class AIController {
   search = asyncHandler(async (req: IAuthRequest, res: Response) => {

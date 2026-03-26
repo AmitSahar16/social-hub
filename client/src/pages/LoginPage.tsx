@@ -20,11 +20,11 @@ const LoginPage: React.FC = () => {
     if (isAuthenticated) {
       navigate('/');
     }
-    
+
     const oauthError = searchParams.get('error');
     if (oauthError) {
       setLocalError({ code: 'OAUTH_ERROR', message: oauthError });
-      
+
       searchParams.delete('error');
       navigate({ search: searchParams.toString() }, { replace: true });
     }
@@ -104,9 +104,10 @@ const LoginPage: React.FC = () => {
                 onChange={handleChange}
                 placeholder="Enter your username or email"
                 disabled={isLoading}
+                autoComplete="username"
               />
             </div>
-            
+
             <div className="mb-3">
               <label htmlFor="password" className="form-label">Password</label>
               <div className="position-relative">
@@ -120,6 +121,7 @@ const LoginPage: React.FC = () => {
                   placeholder="Enter your password"
                   disabled={isLoading}
                   style={{ paddingRight: '2.5rem' }}
+                  autoComplete="current-password"
                 />
                 <button
                   type="button"

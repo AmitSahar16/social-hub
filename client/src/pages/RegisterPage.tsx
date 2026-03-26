@@ -124,6 +124,7 @@ const RegisterPage: React.FC = () => {
                 onChange={handleChange}
                 placeholder="Choose a username"
                 disabled={isLoading}
+                autoComplete="username"
               />
             </div>
 
@@ -138,6 +139,7 @@ const RegisterPage: React.FC = () => {
                 onChange={handleChange}
                 placeholder="Enter your email"
                 disabled={isLoading}
+                autoComplete="email"
               />
             </div>
 
@@ -154,6 +156,7 @@ const RegisterPage: React.FC = () => {
                   placeholder="Create a password"
                   disabled={isLoading}
                   style={{ paddingRight: '2.5rem' }}
+                  autoComplete="new-password"
                 />
                 <button
                   type="button"
@@ -180,6 +183,7 @@ const RegisterPage: React.FC = () => {
                   placeholder="Confirm your password"
                   disabled={isLoading}
                   style={{ paddingRight: '2.5rem' }}
+                  autoComplete="new-password"
                 />
                 <button
                   type="button"

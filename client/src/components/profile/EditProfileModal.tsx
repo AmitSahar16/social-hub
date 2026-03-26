@@ -107,8 +107,8 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ onClose }) => {
       const baseURL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
       const avatarUrl = response.profileImage
         ? (response.profileImage.startsWith('http')
-            ? response.profileImage
-            : `${baseURL}${response.profileImage}`)
+          ? response.profileImage
+          : `${baseURL}${response.profileImage}`)
         : user.avatar;
 
       const updatedUser: User = {
@@ -203,6 +203,8 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ onClose }) => {
                   <input
                     ref={fileInputRef}
                     type="file"
+                    id="profileImageFile"
+                    name="profileImageFile"
                     accept="image/*"
                     onChange={handleFileSelect}
                     style={{ display: 'none' }}
@@ -227,6 +229,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ onClose }) => {
                     value={formData.username}
                     onChange={handleChange}
                     disabled={isLoading}
+                    autoComplete="username"
                   />
                 </div>
 
@@ -243,6 +246,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({ onClose }) => {
                     onChange={handleChange}
                     placeholder="https://example.com/avatar.jpg"
                     disabled={isLoading || !!selectedFile}
+                    autoComplete="url"
                   />
                   <small className="text-muted">
                     Or use the "Choose Photo" button above to upload from your device

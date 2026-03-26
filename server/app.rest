@@ -1,0 +1,158 @@
+@base = http://localhost:3000
+@accessToken = 
+@refreshToken = 
+@postId = 
+@commentId = 
+@userId = 
+
+### Register User (step 1)
+POST {{base}}/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser",
+  "email": "test@example.com",
+  "password": "123456"
+}
+
+### Login with email (step 2 - then copy tokens to variables above)
+POST {{base}}/auth/login
+Content-Type: application/json
+
+{
+  "identifier": "test@example.com",
+  "password": "123456"
+}
+
+### Login with username
+POST {{base}}/auth/login
+Content-Type: application/json
+
+{
+  "identifier": "testuser",
+  "password": "123456"
+}
+
+### Refresh Token
+GET {{base}}/auth/refresh
+Authorization: Bearer {{refreshToken}}
+
+### Logout
+GET {{base}}/auth/logout
+Authorization: Bearer {{accessToken}}
+
+### Google OAuth Login
+GET {{base}}/auth/google
+
+### Google OAuth Callback (used by Google)
+# GET {{base}}/auth/google/callback?code=AUTH_CODE
+
+### Google OAuth Failure
+GET {{base}}/auth/google/failure
+
+### Get My User Info
+GET {{base}}/users/me
+Authorization: Bearer {{accessToken}}
+
+### Update My User Info
+PUT {{base}}/users
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "username": "updateduser",
+  "email": "updated@example.com",
+  "password": "newpass123"
+}
+
+### Get User by ID
+GET {{base}}/users/{{userId}}
+
+### Get All Users
+GET {{base}}/users
+
+### Delete User
+DELETE {{base}}/users/{{userId}}
+
+### Get All Posts
+GET {{base}}/posts
+
+### Get Post by ID
+GET {{base}}/posts/{{postId}}
+
+### Get My Posts
+GET {{base}}/posts/user/me
+Authorization: Bearer {{accessToken}}
+
+### Get Posts by User ID
+GET {{base}}/posts/user/{{userId}}
+
+### Create Post
+POST {{base}}/posts
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "message": "This is my first post!"
+}
+
+### Update Post
+PUT {{base}}/posts/{{postId}}
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "message": "This is my updated post!"
+}
+
+### Delete Post
+DELETE {{base}}/posts/{{postId}}
+Authorization: Bearer {{accessToken}}
+
+### Get All Comments
+GET {{base}}/comments
+
+### Get Comment by ID
+GET {{base}}/comments/{{commentId}}
+
+### Get Comments for a Post
+GET {{base}}/posts/{{postId}}/comments
+
+### Create Comment
+POST {{base}}/comments
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "content": "Great post!",
+  "postId": "{{postId}}"
+}
+
+### Update Comment
+PUT {{base}}/comments/{{commentId}}
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "content": "Updated comment text"
+}
+
+### Delete Comment
+DELETE {{base}}/comments/{{commentId}}
+Authorization: Bearer {{accessToken}}
+
+### Toggle Like on Post
+POST {{base}}/posts/{{postId}}/like
+Authorization: Bearer {{accessToken}}
+
+### Get All Likes for a Post
+GET {{base}}/posts/{{postId}}/likes
+
+### AI Semantic Search
+POST {{base}}/ai/search
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "query": "funny cat posts from last week"
+}

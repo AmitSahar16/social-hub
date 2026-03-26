@@ -146,6 +146,7 @@ const CreatePostPage: React.FC = () => {
                   </div>
                   <input
                     id="imageInput"
+                    name="imageInput"
                     type="file"
                     className="d-none"
                     accept="image/*"

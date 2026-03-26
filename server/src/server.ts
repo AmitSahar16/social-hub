@@ -1,13 +1,40 @@
-import express, { Express } from 'express';
-import { configExpress } from './config/express';
-import { configMongo } from './config/mongo';
+import { initApp } from './app';
+import http from 'http';
+import https from 'https';
+import fs from 'fs';
+import path from 'path';
+import { BASE_URL, IS_PROD, PORT } from './config/env';
 
-export const startServer = async (): Promise<{ app: Express, port: number }> => {
-    const app = express();
-    const port = parseInt(process.env.PORT || '3000');
+const SWAGGER_LOG_MESSAGE = `Swagger UI available at ${BASE_URL}/api-docs`;
 
-    configExpress(app, port);
-    await configMongo();
+export const startServer = async () => {
+  const { app } = await initApp();
 
-    return { app, port };
-};
+  try {
+    if (!IS_PROD) {
+      console.log('development mode');
+
+      http.createServer(app).listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+        console.log(SWAGGER_LOG_MESSAGE);
+      });
+    } else {
+      console.log('production mode');
+
+      const options = {
+        key: fs.readFileSync(path.join(__dirname, '../cert/client-key.pem')),
+        cert: fs.readFileSync(path.join(__dirname, '../cert/client-cert.pem')),
+      };
+
+      https.createServer(options, app).listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+        console.log(SWAGGER_LOG_MESSAGE);
+      });
+    }
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
+}
+
+startServer();
